@@ -1,6 +1,18 @@
-# API REST con Flask y MySQL
+# 🧩 API REST con Flask y MySQL
 
-Este proyecto es una API REST básica desarrollada con **Flask**, **Flask-RESTful** y **MySQL**. Permite crear, leer, actualizar y eliminar ítems (`CRUD`) en una base de datos.
+Este proyecto es una **API REST básica** desarrollada con **Flask (Python)** y conectada a **MySQL**.  
+Permite realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre una tabla `items`.
+
+---
+
+## 🚀 Tecnologías utilizadas
+
+- **Python 3.10+**
+- **Flask**
+- **MySQL**
+- **Flask-MySQLdb**
+- **Postman** o **curl** para pruebas
+- **Git / GitHub** para control de versiones
 
 ---
 
@@ -52,12 +64,13 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-4.Configurar la base de datos MySQL en config.py:
+4.Configurar la base de datos MySQL:
+En tu cliente MySQL ejecuta:
 ```
-MYSQL_HOST = "localhost"
-MYSQL_USER = "iveth_user"
-MYSQL_PASSWORD = "Angel1308."
-MYSQL_DB = "api_rest_db"
+CREATE DATABASE api_rest_db;
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'contraseña';
+GRANT ALL PRIVILEGES ON api_rest_db.* TO 'user'@'localhost';
+FLUSH PRIVILEGES;
 ```
 5.Ejecutar la API:
 ```bash
@@ -66,43 +79,127 @@ python app.py
 
 El servidor estará corriendo en: http://127.0.0.1:5000
 
-🧩 Endpoints
+## 🔍 Endpoints principales
 
-GET todos los ítems
+| Método | Ruta              | Descripción                 |
+|--------|-------------------|-----------------------------|
+| GET    | `/items`          | Listar todos los ítems      |
+| GET    | `/items/<id>`     | Obtener un ítem por ID      |
+| POST   | `/items`          | Crear un nuevo ítem         |
+| PUT    | `/items/<id>`     | Actualizar un ítem existente|
+| DELETE | `/items/<id>`     | Eliminar un ítem            |
+
+---
+
+## 🖼️ Capturas de la API (desde PowerShell)
+
+### 🔹 Crear un nuevo ítem (POST)
+
+Este ejemplo muestra cómo crear un nuevo ítem usando PowerShell con `Invoke-RestMethod`:
+
+![POST Item - PowerShell](screenshots/post_item_powershell.png)
+
+### 🔹 Consultar ítems registrados (GET)
+
+Aquí puedes ver la respuesta JSON con los ítems almacenados en la base de datos MySQL:
+
+![GET Items - PowerShell](screenshots/get_items_powershell.png)
+
+---
+
+## 📦 Ejemplos de uso
+
+### 🔹 Obtener todos los ítems (GET)
 ```bash
-GET /items
+GET http://127.0.0.1:5000/items
 ```
-
-GET un ítem por ID
-```bash
-GET /items/<id>
+Respuesta JSON:
 ```
-
-POST crear un nuevo ítem
-Body JSON:
-```bash
-{
+json
+[
+  {
+    "id": 1,
+    "name": "Cuaderno",
+    "description": "Tamaño A5"
+  },
+  {
+    "id": 2,
     "name": "Lapicero",
     "description": "Color azul"
-}
+  }
+]
 ```
-
-PUT actualizar un ítem
+### 🔹 Crear un nuevo ítem (POST)
 ```bash
-PUT /items/<id>
+POST http://127.0.0.1:5000/items
+Content-Type: application/json
 ```
-Body JSON:
-```bash
+Cuerpo del request:
+```
+json
 {
-    "name": "Cuaderno",
-    "description": "Tamaño A4"
+  "name": "Borrador",
+  "description": "Color blanco"
+}
+```
+Respuesta JSON:
+```
+json
+{
+  "message": "Item created successfully"
+}
+
+```
+### 🔹 Obtener un ítem por ID (GET)
+```bash
+GET http://127.0.0.1:5000/items/1
+```
+Respuesta JSON:
+```
+json
+{
+  "id": 1,
+  "name": "Cuaderno",
+  "description": "Tamaño A5"
+}
+
+```
+### 🔹 Actualizar un ítem (PUT)
+```bash
+PUT http://127.0.0.1:5000/items/1
+Content-Type: application/json
+```
+Cuerpo del request:
+```
+json
+{
+  "name": "Cuaderno grande",
+  "description": "Tamaño A4"
+}
+```
+Respuesta JSON:
+
+```
+json
+{
+  "message": "Item updated successfully"
+}
+
+```
+### 🔹 Eliminar un ítem (DELETE)
+```bash
+DELETE http://127.0.0.1:5000/items/1
+```
+Respuesta JSON:
+
+```
+json
+{
+  "message": "Item deleted successfully"
 }
 ```
 
-DELETE eliminar un ítem
-```bash
-DELETE /items/<id>
-```
+---
 
 ✅ Notas
 
@@ -110,6 +207,25 @@ Asegúrate de que MySQL esté corriendo y que la base de datos api_rest_db exist
 SQLAlchemy crea automáticamente la tabla items la primera vez que ejecutas app.py.
 Puedes probar la API con Postman, PowerShell (Invoke-RestMethod) o navegador (solo GET).
 
-📌 Autor
+---
+## 🚀 Próximas mejoras
 
-Iveth Parra Herrera
+- 🔧 Agregar autenticación con JWT (tokens de acceso).  
+- 📘 Conectar la API con un frontend en React o Flask.  
+- 🧪 Implementar pruebas unitarias con PyTest.  
+- 📄 Agregar documentación automática con Swagger (Flask-Swagger o flasgger).  
+- 🗂️ Incorporar paginación y filtros en los endpoints de ítems.  
+
+---
+
+## 👩‍💻 Autor
+
+**Iveth Parra Herrera**  
+Desarrolladora en formación | Backend & Frontend Junior  
+📍 Colombia  
+🔗 [LinkedIn](https://www.linkedin.com/in/iveth-parra-herrera-351a6a235)  
+💻 [GitHub](https://github.com/iparra-sys)
+
+💡 *“El código es una herramienta para construir soluciones reales y dejar huella.”*
+
+✨ Proyecto desarrollado como parte del Portafolio 2025 - Iveth Parra Herrera ✨
